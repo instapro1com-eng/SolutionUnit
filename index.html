@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>solution.unit · premium web agency</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- GLOBAL RESET & VARIABLES ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fffcf0 0%, #fff9e6 100%);
+      color: #1e1b0c;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --accent: #FF0000;        /* primary red */
+      --accent-soft: #ff4d4d;
+      --yellow-bg: #fff7d6;
+      --yellow-light: #ffffe0;
+      --glass-bg: rgba(255, 250, 235, 0.75);
+      --glass-border: rgba(255, 230, 140, 0.3);
+      --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+      --text-dark: #231f12;
+      --text-soft: #4a4430;
+    }
+
+    /* ----- TYPOGRAPHY & UTILITY ----- */
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+    h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 70px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ----- GLASS FIXED NAVBAR (with hamburger) ----- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 8px 20px rgba(255, 215, 120, 0.2);
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #1e1b0c;
+    }
+    .logo span {
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .logo small {
+      font-size: 0.8rem;
+      font-weight: 400;
+      background: #1e1b0c;
+      color: #fffbe6;
+      padding: 0.2rem 0.6rem;
+      border-radius: 40px;
+      margin-left: 8px;
+    }
+
+    /* desktop nav */
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--text-dark);
+      font-size: 1.1rem;
+      transition: 0.2s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      transform: scale(1.05);
+    }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .hamburger:hover {
+      color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    /* mobile menu */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+      .nav-links {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--glass-border);
+        box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1);
+        transform: translateY(-150%);
+        opacity: 0;
+        transition: 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+        pointer-events: none;
+      }
+      .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    /* ----- HERO 90vh ----- */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      background: radial-gradient(circle at 80% 30%, #ffecb3 0%, #fff9e6 70%);
+      padding: 6rem 0 3rem;
+    }
+    .hero-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3rem;
+    }
+    .hero-text {
+      flex: 1 1 400px;
+    }
+    .hero-text h1 {
+      font-size: 3.5rem;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    .hero-text h1 i {
+      color: var(--accent);
+    }
+    .hero-para {
+      font-size: 1.2rem;
+      color: var(--text-soft);
+      max-width: 550px;
+      margin: 1.5rem 0 2rem;
+    }
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s;
+      border: 2px solid transparent;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff9e6;
+    }
+    .btn-primary:hover {
+      background: #cc0000;
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 15px 25px -8px #ff4d4d;
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
+    }
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .hero-image {
+      flex: 1 1 300px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="%23ff0000" opacity="0.05"><path d="M0 0 L400 0 L300 300 L0 300Z" /></svg>');
+      min-height: 300px;
+      border-radius: 30px;
+      background-color: #fff2cf;
+      background-blend-mode: overlay;
+      box-shadow: var(--shadow);
+      transition: 0.4s;
+    }
+    .hero-image:hover {
+      transform: scale(1.02);
+    }
+
+    /* ----- ABOUT / CHANNEL STATS (premium) ----- */
+    .about {
+      padding: 5rem 0;
+      background: rgba(255, 245, 215, 0.5);
+      backdrop-filter: blur(4px);
+    }
+    .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      align-items: center;
+    }
+    .about-text {
+      flex: 2 1 300px;
+    }
+    .about-text p {
+      font-size: 1.2rem;
+      color: #3e3824;
+      margin: 1rem 0;
+    }
+    .channel-stats {
+      flex: 1 1 220px;
+      background: #ffffffc9;
+      backdrop-filter: blur(6px);
+      padding: 2rem;
+      border-radius: 40px;
+      border: 1px solid #ffd966;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .channel-stats h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .channel-stats ul {
+      list-style: none;
+    }
+    .channel-stats li {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 1.2rem 0;
+      font-weight: 500;
+    }
+    .channel-stats i {
+      color: var(--accent);
+      font-size: 1.6rem;
+      width: 2rem;
+    }
+
+    /* ----- PRICING (SERVICE PLANS) ----- */
+    .pricing {
+      padding: 5rem 0;
+    }
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .plan-card {
+      background: white;
+      padding: 2.5rem 1.5rem;
+      border-radius: 30px;
+      box-shadow: 0 20px 40px -12px rgba(255, 180, 40, 0.3);
+      border: 1px solid #ffe69b;
+      transition: all 0.25s;
+      position: relative;
+      background: #fffef9;
+    }
+    .plan-card:hover {
+      transform: translateY(-16px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 30px 50px -15px #ffaa33;
+    }
+    .plan-name {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      border-bottom: 2px dashed #ffe087;
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 1rem 0;
+      color: #1e1b0c;
+    }
+    .plan-price small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #7a6e4d;
+    }
+    .plan-features {
+      list-style: none;
+      margin: 1.8rem 0;
+    }
+    .plan-features li {
+      margin: 0.7rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .plan-features i.fa-check-circle {
+      color: #2b8c2b;
+    }
+    .badge {
+      background: var(--accent);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    /* ----- CONTACT FORM (whatsapp redirect) ----- */
+    .contact {
+      padding: 5rem 0;
+      background: #fcf3da;
+    }
+    .contact-form {
+      max-width: 680px;
+      margin: 2rem auto 0;
+      background: rgba(255, 255, 245, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 3rem;
+      border-radius: 50px 20px 50px 20px;
+      box-shadow: 0 30px 40px -10px rgba(255, 180, 40, 0.4);
+      border: 1px solid #ffd58c;
+    }
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 2px solid #ffe5b4;
+      border-radius: 60px;
+      font-size: 1rem;
+      background: white;
+      transition: 0.2s;
+    }
+    textarea {
+      border-radius: 30px;
+      resize: vertical;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 5px rgba(255, 0, 0, 0.1);
+    }
+    .contact .btn {
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      background: var(--accent);
+      color: white;
+    }
+    .contact .btn:hover {
+      background: #cc0000;
+    }
+    .whatsapp-note {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #4a3f24;
+      text-align: center;
+    }
+
+    /* ----- FOOTER social icons ----- */
+    footer {
+      background: #1e1b0c;
+      color: #fffae6;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.2rem;
+    }
+    .social-icons a {
+      color: #fffae6;
+      font-size: 1.8rem;
+      transition: 0.2s;
+      display: inline-block;
+    }
+    .social-icons a:hover {
+      color: var(--accent);
+      transform: scale(1.25) rotate(2deg);
+    }
+    .footer-phone {
+      font-size: 1.2rem;
+      background: #332e1e;
+      display: inline-block;
+      padding: 0.2rem 1.5rem;
+      border-radius: 40px;
+      margin-top: 0.5rem;
+    }
+
+    /* responsiveness tweaks */
+    @media (max-width: 480px) {
+      h2 { font-size: 1.9rem; }
+      .hero-text h1 { font-size: 2.5rem; }
+      .navbar { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- FIXED GLASS NAVBAR (with hamburger) -->
+  <nav class="navbar">
+    <div class="logo">solution.unit <span>✦</span> <small>Guwahati</small></div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="menu"><i class="fas fa-bars"></i></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#plans">Plans</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#"><i class="fab fa-whatsapp" style="color: #25D366;"></i> 9706319809</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- HERO 90vh -->
+    <section id="home" class="hero">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <h1>Website just <i>₹2999</i> <br> premium, no compromise.</h1>
+          <p class="hero-para">We build professional, lightning‑fast websites starting at ₹2999. Free domain & hosting. Located in Chhaygone, Guwahati — solution.unit delivers digital excellence.</p>
+          <div class="cta-buttons">
+            <a href="#plans" class="btn btn-primary">view plans →</a>
+            <a href="#contact" class="btn btn-outline">start project</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item"><span class="stat-number">50+</span> <div>sites launched</div></div>
+            <div class="stat-item"><span class="stat-number">4.9</span> <div>client rating</div></div>
+              </div> 
+            </div> 
+      <div class="stat-item"><span
+         class="stat-number">24/7</span>
+          <div>Customer Support </div></div>
+          </div> 
+          </div> 
+              
+      </section>
+    <!-- ABOUT + CHANNEL STATS -->
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <div class="about-text">
+          Don't worry about the price. Just talk to our team, and we will try our best to find a price that works for both of us.</h2>
+          <p><strong>solution.unit</strong> — from the heart of Guwahati (Chhaygone). We turn your vision into a powerful online presence. Whether it’s a basic showcase or a fully loaded e‑commerce store, we handle domain, hosting, emails, and management.</p>
+          <p>▶︎ 100% client satisfaction · unlimited revisions · 24/7 support via WhatsApp.</p>
+        </div>
+        <div class="channel-stats">
+          <h3>📊 channel stats</h3>
+          <ul>
+            <li><i class="fas fa-globe"></i> 6+ years experience</li>
+            <li><i class="fas fa-mobile-alt"></i> 120+ projects</li>
+            <li><i class="fas fa-clock"></i> 2-day turnaround</li>
+            <li><i class="fas fa-rupee-sign"></i> 2999 basic plan</li>
+            <li><i class="fas fa-headset"></i> WhatsApp direct</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE PLANS (premium cards) -->
+    <section id="plans" class="pricing">
+      <div class="container">
+        <h2> service plans · transparent pricing</h2>
+        <div class="plan-grid">
+          <!-- basic -->
+          <div class="plan-card">
+            <div class="plan-name">BASIC</div>
+            <div class="plan-price">₹2,999 <small>one time</small></div>
+            <ul class="plan-features">
+              <li><i class="fas fa-check-circle"></i> Free Domain Name</li>
+              <li><i class="fas fa-check-circle"></i> Free Hosting</li>
+              <li><i class="fas fa-check-circle"></i> Professional looking website as per client requirement</li>
+            </ul>
+            <span class="badge">most affordable</span>
+          </div>
+          <!-- professional -->
+          <div class="plan-card">
+            <div class="plan-name">PROFESSIONAL</div>
+            <div class="plan-price">₹7,999 <small>/yr</small></div>
+            <ul class="plan-features">
+              <li><i class="fas fa-check-circle"></i> Custom domain for 1 year</li>
+              <li><i class="fas fa-check-circle"></i> Hosting for 1 year</li>
+              <li><i class="fas fa-check-circle"></i> Professional emails</li>
+              <li><i class="fas fa-check-circle"></i> Professional website build as per requirement</li>
+              <li><i class="fas fa-check-circle"></i> Website management (updates) 1 year</li>
+            </ul>
+          </div>
+          <!-- advanced e-commerce -->
+          <div class="plan-card">
+            <div class="plan-name">ADVANCED E‑COMMERCE</div>
+            <div class="plan-price">₹11,999 <small>/yr</small></div>
+            <ul class="plan-features">
+              <li><i class="fas fa-check-circle"></i> Custom domain name 1 year</li>
+              <li><i class="fas fa-check-circle"></i> Hosting for 1 year</li>
+              <li><i class="fas fa-check-circle"></i> Professional emails 1 year</li>
+              <li><i class="fas fa-check-circle"></i> Professional website 1 year</li>
+              <li><i class="fas fa-check-circle"></i> Website management</li>
+              <li><i class="fas fa-check-circle"></i> Product display & pricing</li>
+              <li><i class="fas fa-check-circle"></i> Payment gateway integrate</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT FORM (direct whatsapp redirect) -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>start your website</h2>
+        <div class="contact-form">
+          <form id="whatsappForm">
+            <div class="input-group">
+              <input type="text" id="name" placeholder="Your name" required>
+            </div>
+            <div class="input-group">
+              <input type="email" id="email" placeholder="Email address" required>
+            </div>
+            <div class="input-group">
+              <textarea id="message" rows="4" placeholder="Tell us about your website idea / plan..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fab fa-whatsapp"></i> send via WhatsApp</button>
+            <div class="whatsapp-note">⬆️ click — you’ll be redirected to WhatsApp +91 9706319809 (prefilled message)</div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER with social icons & phone -->
+  <footer>
+    <div class="social-icons">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://wa.me/919706319809" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <p>📍 Assam, Guwahati, Chhaygone — solution.unit</p>
+    <p class="footer-phone"><i class="fas fa-phone-alt"></i> +91 97063 19809</p>
+    <p style="margin-top: 1rem; opacity: 0.7;">© 2025 solution.unit · premium at ₹2999</p>
+  </footer>
+
+  <!-- VANILLA JS: hamburger + WhatsApp redirect (direct, no error) -->
+  <script>
+    (function() {
+      // ---------- HAMBURGER MENU ----------
+      const hamburger = document.getElementById('hamburgerBtn');
+      const navLinks = document.getElementById('navLinks');
+      
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          navLinks.classList.toggle('active');
+          // change icon (optional)
+          const icon = hamburger.querySelector('i');
+          if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+
+        // close on link click (mobile)
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            const icon = hamburger.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          });
+        });
+
+        // close on outside click (optional, but friendly)
+        document.addEventListener('click', (event) => {
+          if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+            navLinks.classList.remove('active');
+            const icon = hamburger.querySelector('i');
+            if (icon) {
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
+            }
+          }
+        });
+      }
+
+      // ---------- WHATSAPP REDIRECT (DIRECT, NO ERROR) ----------
+      const form = document.getElementById('whatsappForm');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();   // stop actual form submit
+
+          // get values
+          const name = document.getElementById('name').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const message = document.getElementById('message').value.trim();
+
+          // build WhatsApp text (premium & clean)
+          const phone = '919706319809';   // without '+' or spaces (India)
+          const intro = `Hello solution.unit%2C%20I%20need%20a%20website!`;  // URL encoded
+          const body = `%0A%0A*Name*%3A%20${encodeURIComponent(name || 'not provided')}%0A*Email*%3A%20${encodeURIComponent(email || 'not provided')}%0A*Message*%3A%20${encodeURIComponent(message || 'no message')}%0A%0A(From%20portfolio%20form)`;
+          
+          const waUrl = `https://wa.me/${phone}?text=${intro}${body}`;
+          
+          // redirect directly (no popup blockers)
+          window.open(waUrl, '_blank');   // opens in new tab (or same if _blank)
+          // small optional reset
+          form.reset();
+        });
+      }
+
+      // smooth scroll for anchor links (premium behaviour)
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          if (href === "#") return;
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    })();
+  </script>
+  <!-- ensure that if any hash link exists, it's smooth + close menu -->
+</body>
+</html>
+```
